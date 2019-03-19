@@ -62,7 +62,9 @@ function useDay() {
   };
 
   const isCurrentDay = currentDay.id === nextWednesday.id;
-  const isPast = currentDay.date < new Date();
+  let midnight = new Date();
+  midnight.setHours(0, 0, 0, 0);
+  const isPast = currentDay.date < midnight;
 
   return { changeDay, isCurrentDay, isPast, currentDay };
 }
