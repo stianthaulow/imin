@@ -20,7 +20,9 @@ const styles = theme => ({
 export default withStyles(styles)(function Home(props) {
   const { user, logoutHandler, classes } = props;
   const { changeDay, isCurrentDay, isPast, currentDay } = useDay();
-  const { responses, isAttending, setAttending } = useAttendance(currentDay.id);
+  const { responses, isAttending, hasResponded, setAttending } = useAttendance(
+    currentDay.id
+  );
 
   return (
     <div>
@@ -32,6 +34,7 @@ export default withStyles(styles)(function Home(props) {
               yesHandler={setAttending(user, true)}
               noHandler={setAttending(user, false)}
               isAttending={isAttending(user)}
+              hasResponded={hasResponded(user)}
             />
           )}
           <StatusMessage day={currentDay.label} isPast={isPast} />

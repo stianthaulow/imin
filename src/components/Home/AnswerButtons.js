@@ -10,7 +10,7 @@ const buttonStyle = {
 };
 
 const AnswerButtons = props => {
-  const { yesHandler, noHandler, isAttending } = props;
+  const { yesHandler, noHandler, isAttending, hasResponded } = props;
   return (
     <div>
       <Button
@@ -27,7 +27,7 @@ const AnswerButtons = props => {
         style={buttonStyle}
         color="secondary"
         onClick={noHandler}
-        disabled={!isAttending}
+        disabled={!isAttending && hasResponded}
       >
         Meh, nei
       </Button>

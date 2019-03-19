@@ -23,6 +23,9 @@ function useAttendance(day) {
       athlete => athlete.name === user.name && athlete.attending
     );
 
+  const hasResponded = user =>
+    !!responses.find(athlete => athlete.name === user.name);
+
   const setAttending = (user, willAttend) => () => {
     let newResponses = responses.filter(athlete => athlete.name !== user.name);
     newResponses.push({
@@ -36,7 +39,7 @@ function useAttendance(day) {
     });
   };
 
-  return { responses, isAttending, setAttending };
+  return { responses, isAttending, hasResponded, setAttending };
 }
 
 export default useAttendance;
