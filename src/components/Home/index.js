@@ -20,12 +20,7 @@ const styles = theme => ({
 export default withStyles(styles)(function Home(props) {
   const { user, logoutHandler, classes } = props;
   const { changeDay, isCurrentDay, isPast, currentDay } = useDay();
-  const {
-    attending,
-    isAttending,
-    addAttending,
-    removeAttending
-  } = useAttendance(currentDay.id);
+  const { responses, isAttending, setAttending } = useAttendance(currentDay.id);
 
   return (
     <div>
@@ -34,13 +29,13 @@ export default withStyles(styles)(function Home(props) {
         <div>
           {!isPast && (
             <Question
-              yesHandler={addAttending(user)}
-              noHandler={removeAttending(user)}
+              yesHandler={setAttending(user, true)}
+              noHandler={setAttending(user, false)}
               isAttending={isAttending(user)}
             />
           )}
           <StatusMessage day={currentDay.label} isPast={isPast} />
-          <AthleteList athletes={attending} />
+          <AthleteList athletes={responses} />
         </div>
       </div>
       <Navigation

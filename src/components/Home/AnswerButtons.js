@@ -10,30 +10,27 @@ const buttonStyle = {
 };
 
 const AnswerButtons = props => {
-  const { yesHandler, noHandler, isAttending, isPast } = props;
+  const { yesHandler, noHandler, isAttending } = props;
   return (
     <div>
-      {!isAttending ? (
-        <Button
-          variant="contained"
-          style={buttonStyle}
-          color="primary"
-          onClick={yesHandler}
-          disabled={isPast}
-        >
-          Jepp
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          style={buttonStyle}
-          color="secondary"
-          onClick={noHandler}
-          disabled={isPast}
-        >
-          Meh, nei
-        </Button>
-      )}
+      <Button
+        variant="contained"
+        style={buttonStyle}
+        color="primary"
+        onClick={yesHandler}
+        disabled={isAttending}
+      >
+        Jepp
+      </Button>
+      <Button
+        variant="contained"
+        style={buttonStyle}
+        color="secondary"
+        onClick={noHandler}
+        disabled={!isAttending}
+      >
+        Meh, nei
+      </Button>
     </div>
   );
 };

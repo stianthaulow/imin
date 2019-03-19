@@ -4,31 +4,39 @@ import { db } from "../firebase";
 const attendanceRef = db.collection("attendance");
 
 function useAttendance(day) {
-  const [attending, setAttending] = useState([]);
+  const [responses, setResponses] = useState([]);
+
+  const sortResponses = responses =>
+    [...responses].sort((a, b) =>
+      a.attending === b.attending ? 0 : a.attending ? -1 : 1
+    );
 
   useEffect(() => {
     return attendanceRef.doc(day).onSnapshot(snap => {
-      if (!snap.exists) setAttending([]);
-      else setAttending(snap.data().attending);
+      if (!snap.exists) setResponses([]);
+      else setResponses(sortResponses(snap.data().responses));
     });
   }, [day]);
 
   const isAttending = user =>
-    !!attending.find(athlete => athlete.name === user.name);
+    !!responses.find(
+      athlete => athlete.name === user.name && athlete.attending
+    );
 
-  const addAttending = user => () => {
-    attendanceRef
-      .doc(day)
-      .set({ attending: [...attending, { name: user.name, img: user.img }] });
-  };
+  const setAttending = (user, willAttend) => () => {
+    let newResponses = responses.filter(athlete => athlete.name !== user.name);
+    newResponses.push({
+      name: user.name,
+      img: user.img,
+      attending: willAttend
+    });
 
-  const removeAttending = user => () => {
     attendanceRef.doc(day).set({
-      attending: attending.filter(athlete => athlete.name !== user.name)
+      responses: sortResponses(newResponses)
     });
   };
 
-  return { attending, isAttending, addAttending, removeAttending };
+  return { responses, isAttending, setAttending };
 }
 
 export default useAttendance;
