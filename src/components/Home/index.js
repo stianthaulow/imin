@@ -1,4 +1,5 @@
 import React from "react";
+import { useSwipeable } from "react-swipeable";
 import withStyles from "@material-ui/core/styles/withStyles";
 import TopBar from "./TopBar";
 import Navigation from "./Navigation";
@@ -24,11 +25,17 @@ export default withStyles(styles)(function Home(props) {
     currentDay.id
   );
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => console.log("past"),
+    onSwipedRight: () => console.log("future"),
+    trackMouse: true
+  });
+
   return (
     <div>
       <TopBar user={user} logoutHandler={logoutHandler} />
       <div className={classes.page}>
-        <div>
+        <div {...handlers}>
           {!isPast && (
             <Question
               yesHandler={setAttending(user, true)}
