@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 let d = new Date();
+d.setHours(19);
 d.setDate(d.getDate() + ((3 - d.getDay()) % 7));
 const months = [
   "januar",
@@ -62,9 +63,7 @@ function useDay() {
   };
 
   const isCurrentDay = currentDay.id === nextWednesday.id;
-  let midnight = new Date();
-  midnight.setHours(0, 0, 0, 0);
-  const isPast = currentDay.date < midnight;
+  const isPast = currentDay.date < new Date();
 
   return { changeDay, isCurrentDay, isPast, currentDay };
 }
