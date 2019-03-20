@@ -5,7 +5,7 @@ import AthleteListItem from "./AthleteListItem";
 const AthleteList = props => {
   const { athletes } = props;
   return (
-    <List>
+    <List style={{ marginBottom: "3em" }}>
       {athletes.map(athlete => (
         <AthleteListItem {...athlete} key={athlete.name} />
       ))}
