@@ -64,8 +64,8 @@ function useDay() {
   };
 
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => changeDay(null, "prev"),
-    onSwipedRight: () => changeDay(null, "future"),
+    onSwipedLeft: () => changeDay(null, "future"),
+    onSwipedRight: () => changeDay(null, "prev"),
     trackMouse: true
   });
 
