@@ -1,7 +1,6 @@
 import React from "react";
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import TopBar from "./TopBar";
 import Navigation from "./Navigation";
 import Question from "./Question";
 import StatusMessage from "./StatusMessage";
@@ -19,7 +18,7 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(function Home(props) {
-  const { user, logoutHandler, classes } = props;
+  const { user, classes } = props;
   const {
     changeDay,
     isCurrentDay,
@@ -33,7 +32,6 @@ export default withStyles(styles)(function Home(props) {
 
   return (
     <div {...swipeHandlers} style={{ height: "100vh" }}>
-      <TopBar user={user} logoutHandler={logoutHandler} />
       <div className={classes.page}>
         <div>
           {!isPast && (
