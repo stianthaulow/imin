@@ -1,5 +1,5 @@
 import React from "react";
-import { useSwipeable } from "react-swipeable";
+
 import withStyles from "@material-ui/core/styles/withStyles";
 import TopBar from "./TopBar";
 import Navigation from "./Navigation";
@@ -20,22 +20,24 @@ const styles = theme => ({
 
 export default withStyles(styles)(function Home(props) {
   const { user, logoutHandler, classes } = props;
-  const { changeDay, isCurrentDay, isPast, currentDay } = useDay();
+  const {
+    changeDay,
+    isCurrentDay,
+    isPast,
+    currentDay,
+    swipeHandlers
+  } = useDay();
   const { responses, isAttending, hasResponded, setAttending } = useAttendance(
     currentDay.id
   );
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => console.log("past"),
-    onSwipedRight: () => console.log("future"),
-    trackMouse: true
-  });
+  console.log(swipeHandlers);
 
   return (
-    <div>
+    <div {...swipeHandlers} style={{ height: "100vh" }}>
       <TopBar user={user} logoutHandler={logoutHandler} />
       <div className={classes.page}>
-        <div {...handlers}>
+        <div>
           {!isPast && (
             <Question
               yesHandler={setAttending(user, true)}

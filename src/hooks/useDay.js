@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 let d = new Date();
 d.setHours(19);
@@ -62,10 +63,16 @@ function useDay() {
     }
   };
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => changeDay(null, "prev"),
+    onSwipedRight: () => changeDay(null, "future"),
+    trackMouse: true
+  });
+
   const isCurrentDay = currentDay.id === nextWednesday.id;
   const isPast = currentDay.date < new Date();
 
-  return { changeDay, isCurrentDay, isPast, currentDay };
+  return { changeDay, isCurrentDay, isPast, currentDay, swipeHandlers };
 }
 
 export default useDay;
