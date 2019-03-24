@@ -3,12 +3,12 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyC-pl2HeFDnWnBAMk340IfFeTPRMW-rubs",
-  authDomain: "imin-b7daa.firebaseapp.com",
-  databaseURL: "https://imin-b7daa.firebaseio.com",
-  projectId: "imin-b7daa",
-  storageBucket: "imin-b7daa.appspot.com",
-  messagingSenderId: "417133724160"
+  apiKey: "AIzaSyDCQZQhVkYZKqQovRvqRVNWi86aPev-nQg",
+  authDomain: "imin-dev-3ab1b.firebaseapp.com",
+  databaseURL: "https://imin-dev-3ab1b.firebaseio.com",
+  projectId: "imin-dev-3ab1b",
+  storageBucket: "imin-dev-3ab1b.appspot.com",
+  messagingSenderId: "220127300794"
 };
 
 firebase.initializeApp(config);
