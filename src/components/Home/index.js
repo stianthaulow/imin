@@ -31,8 +31,6 @@ export default withStyles(styles)(function Home(props) {
     currentDay.id
   );
 
-  console.log(swipeHandlers);
-
   return (
     <div {...swipeHandlers} style={{ height: "100vh" }}>
       <TopBar user={user} logoutHandler={logoutHandler} />
