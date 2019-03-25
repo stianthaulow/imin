@@ -36,7 +36,7 @@ export default function useAuth() {
       const userid = querySnap.docs[0].id;
       const userInfo = querySnap.docs[0].data();
 
-      setUser({ isKnown: true, img: user.photoURL, ...userInfo });
+      setUser({ isKnown: true, img: user.photoURL, id: userid, ...userInfo });
       setIsLoading(false);
 
       const userDocRef = usersRef.doc(userid);

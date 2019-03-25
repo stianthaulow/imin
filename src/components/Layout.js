@@ -5,7 +5,6 @@ import TopBar from "./TopBar";
 
 export default function Layout({
   component: Component,
-  user,
   logoutHandler,
   ...rest
 }) {
@@ -15,7 +14,7 @@ export default function Layout({
       render={mathcProps => (
         <div>
           <TopBar logoutHandler={logoutHandler} />
-          <Component {...mathcProps} user={user} />
+          <Component {...mathcProps} />
         </div>
       )}
     />

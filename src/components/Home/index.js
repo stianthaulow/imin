@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Navigation from "./Navigation";
 import Question from "./Question";
 import StatusMessage from "./StatusMessage";
 import AthleteList from "./AthleteList";
+
+import UserContext from "../../context/UserContext";
 
 import useDay from "../../hooks/useDay";
 import useAttendance from "../../hooks/useAttendance";
@@ -18,7 +20,8 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(function Home(props) {
-  const { user, classes } = props;
+  const { classes } = props;
+  const user = useContext(UserContext);
   const {
     changeDay,
     isCurrentDay,

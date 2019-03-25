@@ -5,6 +5,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import blue from "@material-ui/core/colors/blue";
 import red from "@material-ui/core/colors/red";
 
+import UserContext from "../context/UserContext";
+
 import useAuth from "../hooks/useAuth";
 
 import Layout from "./Layout";
@@ -27,6 +29,7 @@ const theme = createMuiTheme({
 
 export default function App() {
   const { isLoading, user, loginHandlers, logoutHandler } = useAuth();
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -35,27 +38,26 @@ export default function App() {
       {!user ? (
         <Login {...loginHandlers} />
       ) : user.isKnown ? (
-        <Switch>
-          <Layout
-            exact
-            path="/"
-            component={Home}
-            user={user}
-            logoutHandler={logoutHandler}
-          />
-          <Layout
-            path="/stats"
-            component={Stats}
-            user={user}
-            logoutHandler={logoutHandler}
-          />{" "}
-          <Layout
-            path="/poll"
-            component={Poll}
-            user={user}
-            logoutHandler={logoutHandler}
-          />
-        </Switch>
+        <UserContext.Provider value={user}>
+          <Switch>
+            <Layout
+              exact
+              path="/"
+              component={Home}
+              logoutHandler={logoutHandler}
+            />
+            <Layout
+              path="/stats"
+              component={Stats}
+              logoutHandler={logoutHandler}
+            />{" "}
+            <Layout
+              path="/poll"
+              component={Poll}
+              logoutHandler={logoutHandler}
+            />
+          </Switch>
+        </UserContext.Provider>
       ) : (
         <Register user={user} logoutHandler={logoutHandler} />
       )}
