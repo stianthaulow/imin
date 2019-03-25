@@ -65,7 +65,7 @@ const Poll = props => {
   const addName = () => {
     const name = nameRef.current.value;
 
-    if (!names[name]) {
+    if (name.length && !names[name]) {
       let newNames = { ...names };
       let voters = {};
       voters[user.id] = { name: user.name, img: user.img };

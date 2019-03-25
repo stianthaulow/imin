@@ -15,11 +15,11 @@ const styles = theme => ({
 });
 
 const AthleteListItem = props => {
-  const { name, attending, classes } = props;
+  const { name, attending, classes, img } = props;
   return (
     <ListItem>
       <ListItemAvatar>
-        <AthleteAvatar {...props} />
+        <AthleteAvatar name={name} img={img} />
       </ListItemAvatar>
       <ListItemText
         classes={attending ? {} : { primary: classes.notAttending }}
