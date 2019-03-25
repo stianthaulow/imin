@@ -80,9 +80,12 @@ const Poll = props => {
   };
 
   const vote = name => () => {
-    const voted = { ...names };
-    voted[name].votes++;
-    setNames(voted);
+    if (!names[name].voters[user.id]) {
+      const voted = { ...names };
+      voted[name].votes++;
+      voted[name].voters[user.id] = { name: user.name, img: user.img };
+      setNames(voted);
+    }
   };
 
   return (
