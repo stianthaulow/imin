@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
@@ -11,36 +11,15 @@ import UserContext from "../../context/UserContext";
 
 import NameSuggestion from "./NameSuggestion";
 
+import { db } from "../../firebase";
+
+const namePollRef = db.collection("namepoll");
+
 const styles = theme => ({
   fab: {
     margin: 2 * theme.spacing.unit
   }
 });
-
-const testNames = {
-  "Forslag 1": {
-    votes: 2,
-    voters: {
-      stian: {
-        name: "Stian",
-        img: ""
-      },
-      sindre: {
-        name: "Sindre",
-        img: ""
-      }
-    }
-  },
-  "Forslag 2": {
-    votes: 1,
-    voters: {
-      sindre: {
-        name: "Sindre",
-        img: ""
-      }
-    }
-  }
-};
 
 const getNames = names =>
   Object.keys(names)
@@ -49,8 +28,15 @@ const getNames = names =>
 
 const Poll = ({ classes }) => {
   const user = useContext(UserContext);
-  const [names, setNames] = useState(testNames);
+  const [names, setNames] = useState({});
   let nameRef = useRef();
+
+  useEffect(() => {
+    return namePollRef.doc("suggestions").onSnapshot(snap => {
+      if (!snap.exists) setNames([]);
+      else setNames(snap.data());
+    });
+  }, []);
 
   const addName = () => {
     const name = nameRef.current.value;
@@ -63,7 +49,7 @@ const Poll = ({ classes }) => {
         votes: 1,
         voters
       };
-      setNames(newNames);
+      namePollRef.doc("suggestions").set(newNames);
     }
 
     nameRef.current.value = "";
@@ -78,7 +64,7 @@ const Poll = ({ classes }) => {
       voted[name].votes--;
       delete voted[name].voters[user.id];
     }
-    setNames(voted);
+    namePollRef.doc("suggestions").set(voted);
   };
 
   return (
