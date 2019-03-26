@@ -11,12 +11,15 @@ import AthleteAvatar from "../AthleteAvatar";
 
 const getVoters = voters => Object.values(voters);
 
-const NameSuggestion = ({ name, votes, voters, voteHandler }) => {
+const NameSuggestion = ({ name, votes, voters, suggestor, voteHandler }) => {
   const user = useContext(UserContext);
   const hasVoted = !!voters[user.id];
   return (
     <ListItem key={name}>
-      <ListItemText primary={name} secondary={votes} />
+      <ListItemText
+        primary={name}
+        secondary={`av ${suggestor}, stemmer: ${votes}`}
+      />
       {getVoters(voters).map(voter => (
         <AthleteAvatar {...voter} key={voter.name} size="small" />
       ))}

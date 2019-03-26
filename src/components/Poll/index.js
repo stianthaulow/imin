@@ -46,6 +46,7 @@ const Poll = ({ classes }) => {
       let voters = {};
       voters[user.id] = { name: user.name, img: user.img };
       newNames[name] = {
+        suggestor: user.name,
         votes: 1,
         voters
       };
