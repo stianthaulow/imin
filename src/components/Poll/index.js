@@ -55,6 +55,12 @@ const Poll = ({ classes }) => {
     nameRef.current.value = "";
   };
 
+  const handleEnter = e => {
+    if (e.key === "Enter") {
+      addName();
+    }
+  };
+
   const vote = name => () => {
     const voted = { ...names };
     if (!names[name].voters[user.id]) {
@@ -72,7 +78,11 @@ const Poll = ({ classes }) => {
       <Typography variant="h5">Stem på et lagnavn:</Typography>
       <List>
         {getNames(names).map(suggestion => (
-          <NameSuggestion {...suggestion} voteHandler={vote(suggestion.name)} />
+          <NameSuggestion
+            {...suggestion}
+            voteHandler={vote(suggestion.name)}
+            key={suggestion.name}
+          />
         ))}
         <Divider />
         <TextField
@@ -80,6 +90,7 @@ const Poll = ({ classes }) => {
           margin="normal"
           variant="outlined"
           inputRef={nameRef}
+          onKeyDown={handleEnter}
         />
         <Fab color="primary" className={classes.fab} onClick={addName}>
           <AddIcon />
