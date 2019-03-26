@@ -15,22 +15,22 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import LogoutButton from "./LogutButton";
 
-const MenuList = (
+const MenuList = ({ closeDrawer }) => (
   <div style={{ width: 250 }}>
     <List>
-      <ListItem button component={Link} to="/">
+      <ListItem button component={Link} to="/" onClick={closeDrawer}>
         <ListItemIcon>
           <HomeIcon />
         </ListItemIcon>
         <ListItemText primary="Hjem" />
       </ListItem>
-      <ListItem button component={Link} to="/poll">
+      <ListItem button component={Link} to="/poll" onClick={closeDrawer}>
         <ListItemIcon>
           <ThumbsUpDownIcon />
         </ListItemIcon>
         <ListItemText primary="Navneavstemning" />
       </ListItem>
-      <ListItem button component={Link} to="/stats">
+      <ListItem button component={Link} to="/stats" onClick={closeDrawer}>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
@@ -64,14 +64,7 @@ const TopBar = props => {
         onOpen={toggleDrawer(true)}
         onClose={toggleDrawer(false)}
       >
-        <div
-          tabIndex={0}
-          role="button"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
-        >
-          {MenuList}
-        </div>
+        <MenuList closeDrawer={toggleDrawer(false)} />
       </SwipeableDrawer>
     </>
   );
