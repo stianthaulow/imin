@@ -7,21 +7,18 @@ import IconButton from "@material-ui/core/IconButton";
 
 import UserContext from "../../context/UserContext";
 
-import AthleteAvatar from "../AthleteAvatar";
+import VoterAvatar from "./VoterAvatar";
 
 const getVoters = voters => Object.values(voters);
 
-const NameSuggestion = ({ name, votes, voters, suggestor, voteHandler }) => {
+const NameSuggestion = ({ name, votes, voters, voteHandler }) => {
   const user = useContext(UserContext);
   const hasVoted = !!voters[user.id];
   return (
     <ListItem key={name}>
-      <ListItemText
-        primary={name}
-        secondary={`av ${suggestor}, stemmer: ${votes}`}
-      />
+      <ListItemText primary={name} secondary={votes} />
       {getVoters(voters).map(voter => (
-        <AthleteAvatar {...voter} key={voter.name} size="small" />
+        <VoterAvatar {...voter} key={voter.name} />
       ))}
       <IconButton color="primary" onClick={voteHandler}>
         {hasVoted ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}

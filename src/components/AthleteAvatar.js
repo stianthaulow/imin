@@ -1,24 +1,15 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-import withStyles from "@material-ui/core/styles/withStyles";
 
-const styles = theme => ({
-  small: {
-    width: 30,
-    height: 30,
-    margin: "2px"
-  }
-});
-
-const AthleteAvatar = ({ name, img, size, classes }) => {
+const AthleteAvatar = ({ name, img }) => {
   return img ? (
-    <Avatar alt={name} src={img} className={size ? classes[size] : ""} />
+    <Avatar alt={name} src={img} />
   ) : (
-    <Avatar alt={name} className={size ? classes[size] : ""}>
+    <Avatar alt={name}>
       <PermIdentityIcon />
     </Avatar>
   );
 };
 
-export default withStyles(styles)(AthleteAvatar);
+export default AthleteAvatar;
