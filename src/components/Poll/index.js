@@ -2,18 +2,14 @@ import React, { useState, useRef, useContext } from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import AddIcon from "@material-ui/icons/Add";
-import IconButton from "@material-ui/core/IconButton";
 import Fab from "@material-ui/core/Fab";
 
 import UserContext from "../../context/UserContext";
 
-import AthleteAvatar from "../AthleteAvatar";
+import NameSuggestion from "./NameSuggestion";
 
 const styles = theme => ({
   fab: {
@@ -51,15 +47,9 @@ const getNames = names =>
     .map(key => ({ ...names[key], name: key }))
     .sort((a, b) => b.votes - a.votes);
 
-const getVoters = voters => Object.values(voters);
-
-const Poll = props => {
-  const { classes } = props;
-
+const Poll = ({ classes }) => {
   const user = useContext(UserContext);
-
   const [names, setNames] = useState(testNames);
-
   let nameRef = useRef();
 
   const addName = () => {
@@ -80,28 +70,23 @@ const Poll = props => {
   };
 
   const vote = name => () => {
+    const voted = { ...names };
     if (!names[name].voters[user.id]) {
-      const voted = { ...names };
       voted[name].votes++;
       voted[name].voters[user.id] = { name: user.name, img: user.img };
-      setNames(voted);
+    } else {
+      voted[name].votes--;
+      delete voted[name].voters[user.id];
     }
+    setNames(voted);
   };
 
   return (
     <div style={{ marginTop: "1em", textAlign: "center" }}>
       <Typography variant="h5">Stem på et lagnavn:</Typography>
       <List>
-        {getNames(names).map(({ name, votes, voters }) => (
-          <ListItem key={name}>
-            <ListItemText primary={name} secondary={votes} />
-            {getVoters(voters).map(voter => (
-              <AthleteAvatar {...voter} key={voter.name} size="small" />
-            ))}
-            <IconButton color="primary" onClick={vote(name)}>
-              <ThumbUpIcon />
-            </IconButton>
-          </ListItem>
+        {getNames(names).map(suggestion => (
+          <NameSuggestion {...suggestion} voteHandler={vote(suggestion.name)} />
         ))}
         <Divider />
         <TextField
