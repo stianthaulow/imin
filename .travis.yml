@@ -1,15 +1,53 @@
 language: node_js
 node_js: lts/*
 sudo: false
+env:
+  global:
+    - DEV_REACT_APP_FIREBASE_API_KEY="AIzaSyDCQZQhVkYZKqQovRvqRVNWi86aPev-nQg"
+    - DEV_REACT_APP_FIREBASE_AUTH_DOMAIN="imin-dev-3ab1b.firebaseapp.com"
+    - DEV_REACT_APP_FIREBASE_DATABASE_URL="https://imin-dev-3ab1b.firebaseio.com"
+    - DEV_REACT_APP_PROJECT_ID="imin-dev-3ab1b"
+    - DEV_REACT_APP_STORAGE_BUCKET="imin-dev-3ab1b.appspot.com"
+    - DEV_REACT_APP_MESSAGING_SENDER_ID="220127300794"
+    - DEV_REACT_APP_SENTRY_DSN="https://c8cfde08880e4905bd25b36678c57364@sentry.io/1419100"
+
+    - PROD_REACT_APP_FIREBASE_API_KEY="AIzaSyC-pl2HeFDnWnBAMk340IfFeTPRMW-rubs"
+    - PROD_REACT_APP_FIREBASE_AUTH_DOMAIN="imin-b7daa.firebaseapp.com"
+    - PROD_REACT_APP_FIREBASE_DATABASE_URL="https://imin-b7daa.firebaseio.com"
+    - PROD_REACT_APP_PROJECT_ID="imin-b7daa"
+    - PROD_REACT_APP_STORAGE_BUCKET="imin-b7daa.appspot.com"
+    - PROD_REACT_APP_MESSAGING_SENDER_ID="417133724160"
+    - PROD_REACT_APP_SENTRY_DSN="https://c8cfde08880e4905bd25b36678c57364@sentry.io/1419100"
+
+before_install:
+  - |
+    if [ "$TRAVIS_BRANCH" = "develop" ]; then
+      for prefixed_envvar in ${!DEV_*}; do
+        eval export ${prefixed_envvar#DEV_}="${!prefixed_envvar}"
+      done
+    elif [ "$TRAVIS_BRANCH" = "master" ]; then
+      for prefixed_envvar in ${!PROD_*}; do
+        eval export ${prefixed_envvar#PROD_}="${!prefixed_envvar}"
+      done
+    fi
+
 cache:
   directories:
     - node_modules
 script:
   - npm run build
 deploy:
-  skip_cleanup: true
-  provider: firebase
-  on:
-    branch: master
-  token:
-    secure: h2zqcCIt/hIsuvg3Nt8NmSjulVzsq9JoAdz1ndW0DRoWWotcinI3ZKSomTKK0Q4Ko+ETWbtm1g0jQ47sEsS+jpcO3u9CBkz1E58k9M0gE+X0ud26cRToGq3PWkxmplYtsNl6NAMB9+1JuN70Y/vkwifUcexEc6q+IGCORJSrFcMkgsRZNx4E4VgCg6N7KP29NoaWAeQJnaV9pSkbTy1hqQevOdkYfA6c2QOHIcQOCldOdCApGZs4edl19LccpRzmzNCMPes6pAUffdorYyemew85n7c01CClyxOZGNvC/7FtCKdXqk2JaITJSS5c90TU5tivLdqANBhq0KYCLBljDNc2LXPtdz1ETUks6lVmuNvk4DyiGU3wlXA1qKs4oIb+vLRiRzZ73+CCNwnDtWvV+hwWiHOiGDZjroSxVUJo21Q/pAJm1zdC1clq8xDTHkuISWgSMeTnxv6utxoV9NgdIoIiQnKFEW9PslMLxcY3Qerf8SEIu2IiHQs23OrbDUFVDV/7kw+rC05VaHuCov+qtckRmzCqN5wyndVw2zg8ogtOe8Q6oYiqD1bR+xeTP7vKxRgAY2CHQqIFSuqUg51DzGmHMXn6lCM5CLKxdnnV0tnp5lQRiiLfLwwZJ8w6OJJbItx2m3//HWp64N+vc3vjPkP3ReCXiJ0v9yJggUKyeJk=
+  - provider: firebase
+    skip_cleanup: true
+    project: "imin-dev-3ab1b"
+    token:
+      secure: hBjcL72BoleWSvPQrjnDyx4qztoz5UrqAaAoaFu68I+1IGr+kdC3kw64SW6dY7hLkzy2bgd+GrXMdywy9B0oeLXuu1LyiCbxB8JkooMJCRNq2vS+mQFujruim8Hfj17q5C3MRkOVIDCtde+reVb6zE80yb/gm0PjZIawLuppnl35Q9yj7dm9vlcfGW+uRArauZ10LT2aT13TQNSX7LbO7su2GnsuTOnTbuczNdEQsL6if1cRVtMkhvyOMmyYjj37yY8HpQQ/WFNHIWr6wvdgLml4RuqqwX9JwaZDYOmV8A3yEPTDIbXqlTkeeOshKFPiFei/E7CBCSnRKJhFFBRfmlvCVkcfm38VLjHgQUfn9bN1gaZbKcUaiDcjHX0bJUDny5aYlhxbCAWJ34MZUH5xnCRDslsqOZNRrPsZ++ziKY9TEeho0dhMccoq2n9upgQPvtkDtJo/NCPz06lL7ehWU7caXPRhXxHjVg1CotqFsnllso9LSiUsi1gkfKrYWoxPut53mZuPVj9bxKmI+3lI09vxH2QCe+TPnw7PVW6bMYANre1IBuoeU1/JbNWE5lq6KdijkpCz+3cxk+Aui/O/D7zZ/nR7t8mj+ERO7AnjW6Y4E0Hf4qmQxG25fMavfVeaNADn7dwI7jXJ+3Ym4+/xGTfxmIDG0MWYhT+Xo6kF4jY=
+    on:
+      branch: develop
+  - provider: firebase
+    skip_cleanup: true
+    project: "imin-b7daa"
+    token:
+      secure: h2zqcCIt/hIsuvg3Nt8NmSjulVzsq9JoAdz1ndW0DRoWWotcinI3ZKSomTKK0Q4Ko+ETWbtm1g0jQ47sEsS+jpcO3u9CBkz1E58k9M0gE+X0ud26cRToGq3PWkxmplYtsNl6NAMB9+1JuN70Y/vkwifUcexEc6q+IGCORJSrFcMkgsRZNx4E4VgCg6N7KP29NoaWAeQJnaV9pSkbTy1hqQevOdkYfA6c2QOHIcQOCldOdCApGZs4edl19LccpRzmzNCMPes6pAUffdorYyemew85n7c01CClyxOZGNvC/7FtCKdXqk2JaITJSS5c90TU5tivLdqANBhq0KYCLBljDNc2LXPtdz1ETUks6lVmuNvk4DyiGU3wlXA1qKs4oIb+vLRiRzZ73+CCNwnDtWvV+hwWiHOiGDZjroSxVUJo21Q/pAJm1zdC1clq8xDTHkuISWgSMeTnxv6utxoV9NgdIoIiQnKFEW9PslMLxcY3Qerf8SEIu2IiHQs23OrbDUFVDV/7kw+rC05VaHuCov+qtckRmzCqN5wyndVw2zg8ogtOe8Q6oYiqD1bR+xeTP7vKxRgAY2CHQqIFSuqUg51DzGmHMXn6lCM5CLKxdnnV0tnp5lQRiiLfLwwZJ8w6OJJbItx2m3//HWp64N+vc3vjPkP3ReCXiJ0v9yJggUKyeJk=
+    on:
+      branch: master

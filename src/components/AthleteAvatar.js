@@ -2,8 +2,7 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 
-const AthleteAvatar = props => {
-  const { name, img } = props;
+const AthleteAvatar = ({ name, img }) => {
   return img ? (
     <Avatar alt={name} src={img} />
   ) : (
