@@ -46,7 +46,7 @@ export default withStyles(styles)(function Home(props) {
             />
           )}
           <StatusMessage day={currentDay.label} isPast={isPast} />
-          <AthleteList athletes={responses} />
+          <AthleteList athletes={responses} isPast={isPast} />
         </div>
       </div>
       <Navigation
